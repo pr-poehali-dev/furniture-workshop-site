@@ -5,11 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const { toast } = useToast();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -21,6 +23,7 @@ const Index = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
+    setMobileMenuOpen(false);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -111,6 +114,49 @@ const Index = () => {
             <Button onClick={() => scrollToSection('booking')} className="hidden md:flex">
               Записаться
             </Button>
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="outline" size="icon">
+                  <Icon name="Menu" size={24} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col gap-6 mt-8">
+                  <div className="flex items-center gap-2 pb-4 border-b">
+                    <Icon name="Hammer" size={24} className="text-primary" />
+                    <span className="text-xl font-bold">МебельМастер</span>
+                  </div>
+                  <button 
+                    onClick={() => scrollToSection('hero')} 
+                    className="text-left text-lg hover:text-primary transition-colors py-2"
+                  >
+                    Главная
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection('services')} 
+                    className="text-left text-lg hover:text-primary transition-colors py-2"
+                  >
+                    Услуги
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection('portfolio')} 
+                    className="text-left text-lg hover:text-primary transition-colors py-2"
+                  >
+                    Портфолио
+                  </button>
+                  <button 
+                    onClick={() => scrollToSection('contact')} 
+                    className="text-left text-lg hover:text-primary transition-colors py-2"
+                  >
+                    Контакты
+                  </button>
+                  <Button onClick={() => scrollToSection('booking')} size="lg" className="mt-4">
+                    <Icon name="Calendar" size={20} className="mr-2" />
+                    Записаться
+                  </Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </nav>
       </header>
